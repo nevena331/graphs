@@ -25,6 +25,7 @@ vertex_t* create_vertex(int value){
 
 set_t* create_graph(int matrix[VERTEX_COUNT][VERTEX_COUNT]){
     set_t* graph = create_empty_set();
+    CHECK_ALLOC(graph);
     for(int i = 0; i < VERTEX_COUNT; i++){
         vertex_t* new_vertex = create_vertex(i);
         add_element_to_set(graph, new_vertex);

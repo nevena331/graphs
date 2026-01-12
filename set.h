@@ -1,7 +1,5 @@
 #pragma once
 #include<stdlib.h>
-#include "graphs.h"
-#include "edges.h"
 
 typedef struct {
     void** elements;

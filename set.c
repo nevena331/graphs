@@ -10,9 +10,12 @@ set_t* create_empty_set(){
 }
 
 void add_element_to_set(set_t* set, void* new_element){
+    if(!set){
+        set = create_empty_set();
+    }
     int found = 0;
     for(int i = 0; i < set->count; i++){
-        if(set->elements[i] = new_element){
+        if(set->elements[i] == new_element){
             found = 1;
             break;
         }

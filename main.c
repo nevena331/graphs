@@ -2,10 +2,6 @@
 #include <stdlib.h>
 
 #include "graphs.h"
-#include "set.h"
-#include "edges.h"
-
-
 
 
 int main (){
@@ -18,6 +14,6 @@ int main (){
         {1, 0, 1, 1, 1, 0}
     };
 
-    
+    set_t* graph = create_graph(adj_matrix);
 
 }

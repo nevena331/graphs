@@ -1,5 +1,6 @@
 #pragma once 
 #include "set.h"
+#include <stdio.h>
 
 #define VERTEX_COUNT 6
 
