@@ -23,10 +23,10 @@ vertex_t* create_vertex(int value){
     return new_vertex;
 }
 
-set_t* create_graph(int matrix[VERTEX_COUNT][VERTEX_COUNT]){
+set_t* create_graph(int**matrix, int vertex_count){
     set_t* graph = create_empty_set();
     CHECK_ALLOC(graph);
-    for(int i = 0; i < VERTEX_COUNT; i++){
+    for(int i = 0; i < vertex_count; i++){
         vertex_t* new_vertex = create_vertex(i);
         add_element_to_set(graph, new_vertex);
         for(int j = 0; j < i; j++){
