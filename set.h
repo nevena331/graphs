@@ -3,11 +3,10 @@
 #include "graphs.h"
 #include "edges.h"
 
-typedef edge_t* set_type;
-
 typedef struct {
-    set_type* elements;
+    void** elements;
     int count;
 }set_t;
 
-void add_element_to_set(set_t* set, set_type new_element);
+set_t* create_empty_set();
+void add_element_to_set(set_t* set, void* new_element);
