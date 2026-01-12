@@ -29,7 +29,7 @@ set_t* create_graph(int matrix[VERTEX_COUNT][VERTEX_COUNT]){
     for(int i = 0; i < VERTEX_COUNT; i++){
         vertex_t* new_vertex = create_vertex(i);
         add_element_to_set(graph, new_vertex);
-        for(int j = 0; j < i + 1; j++){
+        for(int j = 0; j < i; j++){
             vertex_t* neighbor = get_vertex(graph, j);
             if(matrix[i][j]){
                 if(matrix[j][i]){
@@ -42,6 +42,9 @@ set_t* create_graph(int matrix[VERTEX_COUNT][VERTEX_COUNT]){
                     add_edge(new_vertex, neighbor, 1, 1);
                 }
             }
+        }
+        if(matrix[i][i]){
+            add_edge(new_vertex, new_vertex, 0, 1);
         }
     }
     return graph;
