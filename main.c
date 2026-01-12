@@ -15,5 +15,5 @@ int main (){
     };
 
     set_t* graph = create_graph(adj_matrix);
-
+    print_graph(graph);
 }

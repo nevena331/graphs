@@ -45,3 +45,14 @@ set_t* create_graph(int matrix[VERTEX_COUNT][VERTEX_COUNT]){
     }
     return graph;
 }
+
+void print_graph(set_t* graph){
+    for(int i = 0; i < graph->count; i++){
+        vertex_t* vertex = graph->elements[i];
+        printf("Vertex %d: ", vertex->value);
+        for(int j = 0; j < vertex->neighbors.count; j++){
+            print_edge(vertex->neighbors.elements[j]);
+        }
+        printf("\n");
+    }
+}

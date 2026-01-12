@@ -19,3 +19,4 @@ typedef struct vertex{
 
 vertex_t* create_vertex(int value);
 set_t* create_graph(int matrix[VERTEX_COUNT][VERTEX_COUNT]);
+void print_graph(set_t* graph);

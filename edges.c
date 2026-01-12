@@ -16,3 +16,11 @@ edge_t* add_edge(vertex_t* vertex1, vertex_t* vertex2, int direction, int weight
     add_element_to_set(&((new_edge->vertex2)->neighbors), new_edge);
     return new_edge;
 }
+
+void print_edge(edge_t* edge){
+    printf("v1: %d -> v2 %d, direction: %d, weight: %d\n",
+           edge->vertex1->value,
+           edge->vertex2->value,
+           edge->direction,
+           edge->weight);
+}
