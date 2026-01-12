@@ -37,9 +37,10 @@ set_t* create_graph(int matrix[VERTEX_COUNT][VERTEX_COUNT]){
                 }else{
                     add_edge(new_vertex, neighbor, 2, 1);
                 }
-            }
-            if(matrix[j][i]){
-                add_edge(new_vertex, neighbor, 1, 1);
+            }else{
+                if(matrix[j][i]){
+                    add_edge(new_vertex, neighbor, 1, 1);
+                }
             }
         }
     }
@@ -49,7 +50,7 @@ set_t* create_graph(int matrix[VERTEX_COUNT][VERTEX_COUNT]){
 void print_graph(set_t* graph){
     for(int i = 0; i < graph->count; i++){
         vertex_t* vertex = graph->elements[i];
-        printf("Vertex %d: ", vertex->value);
+        printf("Vertex %d:\n", vertex->value);
         for(int j = 0; j < vertex->neighbors.count; j++){
             print_edge(vertex->neighbors.elements[j]);
         }
