@@ -12,7 +12,7 @@ static edge_t* create_edge(vertex_t* vertex1, vertex_t* vertex2, int direction, 
 
 edge_t* add_edge(vertex_t* vertex1, vertex_t* vertex2, int direction, int weight){
     edge_t* new_edge = create_edge(vertex1, vertex2, direction, weight);
-    add_edge_to_set(&((new_edge->vertex1)->neighbors), new_edge);
-    add_edge_to_set(&((new_edge->vertex2)->neighbors), new_edge);
+    add_element_to_set(&((new_edge->vertex1)->neighbors), new_edge);
+    add_element_to_set(&((new_edge->vertex2)->neighbors), new_edge);
     return new_edge;
 }
