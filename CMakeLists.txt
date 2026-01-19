@@ -12,6 +12,7 @@ add_executable(graphs
     graphs.c
     set.c
     edges.c
+    euler.c
 )
 
 # Set the directories that should be included in the build command for this target

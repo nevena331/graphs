@@ -50,6 +50,20 @@ set_t* create_graph(int**matrix, int vertex_count){
     return graph;
 }
 
+int get_vertex_index(set_t* graph, vertex_t* vertex_to_find){
+    if(graph == NULL || vertex_to_find == NULL){
+        return -1;
+    }
+    int index = -1;
+    for(int i = 0; i < graph->count; i++){
+        if(graph->elements[i] == vertex_to_find){
+            index = i;
+            break;
+        }
+    }
+    return index;
+}
+
 void print_graph(set_t* graph){
     for(int i = 0; i < graph->count; i++){
         vertex_t* vertex = graph->elements[i];
