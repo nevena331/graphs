@@ -57,9 +57,10 @@ void print_adj_matrix(int** matrix, int vertex_count){
 }
 
 int main (){
-    FILE* file = fopen("../undirected_graph3.txt", "r");
+    FILE* file = fopen("../undirected_raph3.txt", "r");
     if(file == NULL) {
-        printf("Not able to open the file.");
+        printf("Not able to open the file.\n");
+        return 1;
     }
 
     int vertex_count = get_vertex_count(file);
