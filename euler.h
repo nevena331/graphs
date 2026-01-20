@@ -2,4 +2,4 @@
 #include "graphs.h"
 #include "edges.h"
 
-int is_eulerian(set_t* graph);
+int is_eulerian(graph_t* graph);

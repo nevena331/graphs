@@ -32,7 +32,7 @@ void remove_edge(vertex_t* vertex1, vertex_t* vertex2){
 }
 
 void print_edge(edge_t* edge){
-    printf("v1: %d -> v2 %d, direction: %d, weight: %d\n",
+    printf("v1: %d - v2 %d, direction: %d, weight: %d\n",
            edge->vertex1->value,
            edge->vertex2->value,
            edge->direction,

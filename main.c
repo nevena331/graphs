@@ -16,6 +16,18 @@ int get_vertex_count(FILE* file){
     return v;
 }   
 
+int is_directed(FILE* file, int vertex_count){
+    char is_directed_str[64];
+    if(!fgets(is_directed_str, sizeof(is_directed_str), file)){
+        fprintf(stderr, "Failed to read is_directed flag\n");
+        exit(1);
+    }
+    int is_directed = atoi(is_directed_str);
+    printf("Is directed string: %s", is_directed_str);
+    printf("Converted is_directed: %d\n", is_directed);
+    return is_directed;
+}
+
 int** read_adjacency_matrix(FILE* file, int vertex_count){
     int** adj_matrix = malloc(sizeof(int*) * vertex_count);
     CHECK_ALLOC(adj_matrix);
@@ -45,27 +57,20 @@ void print_adj_matrix(int** matrix, int vertex_count){
 }
 
 int main (){
-    FILE* file = fopen("../directed_graph3.txt", "r");
+    FILE* file = fopen("../undirected_graph3.txt", "r");
     if(file == NULL) {
         printf("Not able to open the file.");
     }
 
     int vertex_count = get_vertex_count(file);
+    int is_directed_flag = is_directed(file, vertex_count);
     int** adj_matrix = read_adjacency_matrix(file, vertex_count);
     printf("vertex count: %d\n", vertex_count);
     print_adj_matrix(adj_matrix, vertex_count);
     
     fclose(file);
     
-    // int adj_matrix[5][5] = {
-    //     {0, 1, 0, 1, 0},
-    //     {1, 0, 1, 0, 1},
-    //     {0, 1, 0, 1, 0},
-    //     {1, 0, 1, 0, 1},
-    //     {0, 1, 0, 1, 0}
-    // };
-
-    set_t* graph = create_graph(adj_matrix, vertex_count);
+    graph_t* graph = create_graph(adj_matrix, vertex_count, is_directed_flag);
     print_graph(graph);
 
     printf("is eulerian: %d\n", is_eulerian(graph));
