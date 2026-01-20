@@ -45,7 +45,7 @@ void print_adj_matrix(int** matrix, int vertex_count){
 }
 
 int main (){
-    FILE* file = fopen("../undirected_graph2.txt", "r");
+    FILE* file = fopen("../directed_graph3.txt", "r");
     if(file == NULL) {
         printf("Not able to open the file.");
     }
@@ -68,7 +68,7 @@ int main (){
     set_t* graph = create_graph(adj_matrix, vertex_count);
     print_graph(graph);
 
-    printf("is euleran: %d\n", is_eulerian_undirected(graph));
+    printf("is eulerian: %d\n", is_eulerian(graph));
 
     return 0;
 }

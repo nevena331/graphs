@@ -44,7 +44,7 @@ static int connected_component_and_singles_only(set_t* graph){
     return 1;
 }
 
-int is_eulerian_undirected(set_t* graph){
+static int is_eulerian_undirected(set_t* graph){
     if(!connected_component_and_singles_only(graph)){
         return 0;
     }
@@ -61,4 +61,140 @@ int is_eulerian_undirected(set_t* graph){
         return 2;
     }
     return 0;
+}
+
+static int strongly_connected_components_and_singles_only(set_t* graph){
+    int* visited = calloc(graph->count, sizeof(int));
+    CHECK_ALLOC(visited);
+    if(graph->count == 0){
+        return 1;
+    }
+    for(int i = 0; i < graph->count; i++){
+        connected_component_only_internal(graph, (vertex_t*)graph->elements[i], visited);
+        for(int j = 0; j < graph->count; j++){
+            if(visited[j] == 0 && ((vertex_t*)graph->elements[j])->neighbors.count > 0){
+                free(visited);
+                return 0;
+            }
+        }
+        for(int j = 0; j < graph->count; j++){
+            visited[j] = 0;
+        }
+    }
+    free(visited);
+    return 1;
+}
+
+static int check_edge_direction(vertex_t* vertex, edge_t* edge){
+    switch(edge->direction){
+        case 1:
+            if(edge->vertex1 == vertex){
+                return 1;
+            }else{
+                return 0;
+            }
+            break;
+        case 2:
+            if(edge->vertex2 == vertex){
+                return 1;
+            }else{
+                return 0;
+            }
+            break;
+        default:
+            return -1;
+    }
+}
+
+static int is_eulerian_cycle_directed(set_t* graph){
+    if(!strongly_connected_components_and_singles_only(graph)){
+        return 0;
+    }
+    int is_eulerian_cycle = 1;
+    for(int i = 0; i < graph->count;i++){
+        int in_edges = 0;
+        int out_edges = 0;
+        vertex_t* current_vertex = (vertex_t*)graph->elements[i];
+        for(int j = 0; j < current_vertex->neighbors.count; j++){
+            int direction = check_edge_direction(graph->elements[i], current_vertex->neighbors.elements[j]);
+            if(direction == 0){
+                out_edges++;
+            }else if(direction == 1){
+                in_edges++;
+            }
+        }
+        if(in_edges != out_edges){
+            is_eulerian_cycle = 0;
+            break;
+        }
+    }
+    return is_eulerian_cycle;
+}
+
+static int is_eulerian_directed(set_t* graph){
+    if(is_eulerian_cycle_directed(graph)){
+        return 2;
+    }
+    vertex_t* beginning_vertex = NULL;
+    vertex_t* end_vertex = NULL;
+    for(int i = 0; i < graph->count; i++){
+        vertex_t* current_vertex = graph->elements[i];
+        int in_edges = 0; 
+        int out_edges = 0;
+        for(int j = 0; j < current_vertex->neighbors.count; j++){
+            int direction = check_edge_direction(current_vertex, current_vertex->neighbors.elements[j]);
+            if(direction == 0){
+                out_edges++;
+            }else if(direction == 1){
+                in_edges++;
+            }
+        } 
+        if(in_edges == 1 + out_edges){
+            if(end_vertex == NULL){
+                end_vertex = current_vertex;
+            }else{
+                return 0;
+            }
+        }else if(out_edges == 1 + in_edges){
+            if(beginning_vertex == NULL){
+                beginning_vertex = current_vertex;
+            }else{
+                return 0;
+            }
+        }else if(in_edges != out_edges){
+            return 0;
+        }
+    }
+    if(beginning_vertex == NULL || end_vertex == NULL){
+        return 0;
+    }
+
+    add_edge(end_vertex, beginning_vertex, 2, 0);
+    if(is_eulerian_cycle_directed(graph)){
+        remove_edge(beginning_vertex, end_vertex);
+        return 1;
+    }
+    remove_edge(beginning_vertex, end_vertex);
+    return 0;
+}
+
+static int is_directed(set_t* graph){
+    for(int i = 0; i < graph->count; i++){
+        vertex_t* vertex = (vertex_t*)graph->elements[i];
+        for(int j = 0; j < vertex->neighbors.count; j++){
+            edge_t* edge = (edge_t*)vertex->neighbors.elements[j];
+            if(edge->direction != 0){
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int is_eulerian(set_t* graph){
+    if(is_directed(graph)){
+        return is_eulerian_directed(graph);
+    }else{
+        return is_eulerian_undirected(graph);
+    }
 }

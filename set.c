@@ -26,3 +26,16 @@ void add_element_to_set(set_t* set, void* new_element){
         set->count++;
     }
 }
+
+void remove_element_from_set(set_t* set, void* element_to_delete){
+    for(int i = 0; i < set->count; i++){
+        if(set->elements[i] == element_to_delete){
+            for(int j = i; j < set->count - 1; j++){
+                set->elements[j] = set->elements[j + 1];
+            }
+            set->count--;
+            set->elements = realloc(set->elements, set->count * sizeof(void*));
+            break;
+        }
+    }
+}
