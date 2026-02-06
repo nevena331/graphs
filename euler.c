@@ -11,7 +11,7 @@ static vertex_t* get_neighbor(vertex_t* vertex, int edge_index){
     return NULL;
 }
 
-static void connected_component_only_internal(graph_t* graph, vertex_t* first_vertex, int* visited){
+void connected_component_only_internal(graph_t* graph, vertex_t* first_vertex, int* visited){
     int index = get_vertex_index(graph, first_vertex);
     assert(index != -1);
     if(visited[index] == 1){
