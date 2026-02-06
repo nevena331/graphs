@@ -3,7 +3,7 @@
 #include "edges.h"
 
 
-static vertex_t* create_vertex(int value){
+vertex_t* create_vertex(int value){
     vertex_t* new_vertex = malloc(sizeof(vertex_t));
     CHECK_ALLOC(new_vertex);
     new_vertex->value = value;
@@ -12,7 +12,7 @@ static vertex_t* create_vertex(int value){
     return new_vertex;
 }
 
-static vertex_t* get_vertex(graph_t* graph, int value){
+vertex_t* get_vertex(graph_t* graph, int value){
     vertex_t* vertex = NULL;
     for(int i = 0; i < graph->vertices.count; i++){
         if(((vertex_t*)graph->vertices.elements[i])->value == value){
