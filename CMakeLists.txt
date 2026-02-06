@@ -13,6 +13,7 @@ add_executable(graphs
     set.c
     edges.c
     euler.c
+    queue.c
 )
 
 # Set the directories that should be included in the build command for this target
