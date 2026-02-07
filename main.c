@@ -87,6 +87,6 @@
 int main(){
     graph_t* graph = create_random_filled_graph();
     print_graph(graph);
-
+    
     return 0;
 }

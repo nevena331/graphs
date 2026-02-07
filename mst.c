@@ -7,7 +7,7 @@
 #include "time.h"
 
 static void create_random_neighbor_edges(graph_t* graph, vertex_t* vertex){
-    for(int i = 0; i < graph->vertices.count;){
+    for(int i = rand() % 3; i < graph->vertices.count;){
         if(vertex != graph->vertices.elements[i]){
             int weight = vertex->value + (((vertex_t*)(graph->vertices.elements[i]))->value) - 10;
             if(weight < 0){
@@ -43,6 +43,17 @@ graph_t* create_random_filled_graph(){
     int* visited = calloc(new_graph->vertices.count, sizeof(int));
     CHECK_ALLOC(visited);
     connected_component_only_internal(new_graph, new_graph->vertices.elements[0], visited);
-    return new_graph;
+    int connected_component_only = 1;
+    for(int i = 0; i < new_graph->vertices.count; i++){
+        if(visited[i] == 0){
+            connected_component_only = 0;
+            break;
+        }
+    }
+    if(connected_component_only){
+        return new_graph;
+    }else{
+        return create_random_filled_graph();
+    }
 }
 
