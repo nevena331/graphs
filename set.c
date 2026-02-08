@@ -39,3 +39,9 @@ void remove_element_from_set(set_t* set, void* element_to_delete){
         }
     }
 }
+
+// void free_set(set_t* set){
+//     for(int i = 0; i < set->count; i++){
+//         free(set->elements[i]);
+//     }
+// }

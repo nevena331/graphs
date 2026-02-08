@@ -9,5 +9,5 @@ typedef struct{
 }edge_t;
 
 edge_t* add_edge(vertex_t* vertex1, vertex_t* vertex2, int direction, int weight);
-void remove_edge(vertex_t* vertex1, vertex_t* vertex2);
+void remove_edge(vertex_t* vertex1, vertex_t* vertex2, edge_t* edge);
 void print_edge(edge_t* edge);

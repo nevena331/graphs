@@ -84,3 +84,25 @@ void print_graph(graph_t* graph){
         printf("\n");
     }
 }
+
+static void free_vertex(vertex_t* vertex){
+    if(vertex->neighbors.elements != NULL){
+        for(int i = 0; i < vertex->neighbors.count; i++){
+            remove_edge(NULL, NULL, vertex->neighbors.elements[i]);
+            i--;
+        }
+    }
+    free(vertex->neighbors.elements);
+    free(vertex);
+}
+
+graph_t* free_graph(graph_t* graph){
+    for(int i = 0; i < graph->vertices.count; i++){
+        free_vertex(graph->vertices.elements[i]);
+        graph->vertices.elements[i] = NULL;
+    }
+    free(graph->vertices.elements);
+    free(graph);
+    graph = NULL;
+    return graph;
+}

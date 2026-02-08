@@ -87,6 +87,7 @@
 int main(){
     graph_t* graph = create_random_filled_graph();
     print_graph(graph);
-    
+    graph = free_graph(graph);
+    printf("graph after free: %p\n", graph);
     return 0;
 }

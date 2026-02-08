@@ -171,10 +171,10 @@ static int is_eulerian_directed(graph_t* graph){
 
     add_edge(end_vertex, beginning_vertex, 2, 0);
     if(is_eulerian_cycle_directed(graph)){
-        remove_edge(beginning_vertex, end_vertex);
+        remove_edge(beginning_vertex, end_vertex, NULL);
         return 1;
     }
-    remove_edge(beginning_vertex, end_vertex);
+    remove_edge(beginning_vertex, end_vertex, NULL);
     return 0;
 }
 
