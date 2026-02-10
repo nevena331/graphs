@@ -26,6 +26,23 @@ void connected_component_only_internal(graph_t* graph, vertex_t* first_vertex, i
     }
 }
 
+int tree_like_connected_component_only(graph_t* graph, vertex_t* root){
+    int* visited = calloc(graph->vertices.count, sizeof(int));
+    CHECK_ALLOC(visited);
+    visited[get_vertex_index(graph, root)] = 1;
+    for(int i = 0; i < root->neighbors.count; i++){
+        vertex_t* neighbor = get_neighbor(root, i);
+        connected_component_only_internal(graph, neighbor, visited);
+    }
+    for(int i = 0; i < graph->vertices.count; i++){
+        if(visited[i] == 0){
+            free(visited);
+            return 0;
+        }
+    }
+    free(visited);
+    return 1;
+}
 static int connected_component_and_singles_only(graph_t* graph){
     int* visited = calloc(graph->vertices.count, sizeof(int));
     CHECK_ALLOC(visited);
@@ -64,11 +81,11 @@ static int is_eulerian_undirected(graph_t* graph){
 }
 
 static int strongly_connected_components_and_singles_only(graph_t* graph){
-    int* visited = calloc(graph->vertices.count, sizeof(int));
-    CHECK_ALLOC(visited);
     if(graph->vertices.count == 0){
         return 1;
     }
+    int* visited = calloc(graph->vertices.count, sizeof(int));
+    CHECK_ALLOC(visited);
     for(int i = 0; i < graph->vertices.count; i++){
         connected_component_only_internal(graph, (vertex_t*)graph->vertices.elements[i], visited);
         for(int j = 0; j < graph->vertices.count; j++){

@@ -23,6 +23,15 @@ vertex_t* get_vertex(graph_t* graph, int value){
     return vertex;
 }
 
+graph_t* create_empty_graph(int is_directed){
+    graph_t* graph = malloc(sizeof(graph_t));
+    CHECK_ALLOC(graph);
+    graph->vertices.elements = NULL;
+    graph->vertices.count = 0;
+    graph->is_directed = is_directed;
+    return graph;
+}
+
 graph_t* create_graph(int**matrix, int vertex_count, int is_directed){
     graph_t* graph = malloc(sizeof(graph_t));
     CHECK_ALLOC(graph);

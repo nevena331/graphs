@@ -86,8 +86,12 @@
 
 int main(){
     graph_t* graph = create_random_filled_graph();
+    printf("\nOriginal graph:\n");
     print_graph(graph);
+    graph_t* mst = build_mst(graph);
+    printf("\nMST:\n");
+    print_graph(mst);
     graph = free_graph(graph);
-    printf("graph after free: %p\n", graph);
+    mst = free_graph(mst);  
     return 0;
 }
