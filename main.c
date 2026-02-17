@@ -83,6 +83,8 @@ void graph_tests(){
     printf("\nTopologically sorted graph:\n");
     print_graph(topologically_sorted_graph);
 
+    printf("\nIs reachable test: %d\n", is_reachable(graph, get_vertex(graph, 4), get_vertex(graph, 9)));
+
     graph = free_graph(graph);
     topologically_sorted_graph = free_graph(topologically_sorted_graph);
     return;

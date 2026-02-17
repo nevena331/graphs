@@ -201,6 +201,35 @@ graph_t* topological_sort(graph_t* graph){
     return new_graph;
 }
 
+int is_reachable(graph_t* graph, vertex_t* start_vertex, vertex_t* end_vertex){
+    if(start_vertex == end_vertex){
+        return 1;
+    }
+    queue_t* queue = queue_create();
+    queue_enqueue(queue, start_vertex);
+    int found = 0;
+    int* visited = calloc(graph->vertices.count, sizeof(int));
+    visited[get_vertex_index(graph, start_vertex)] = 1;
+    while(!queue_is_empty(queue)){
+        vertex_t* curr_vertex = queue_dequeue(queue);
+        for(int i = 0; i < curr_vertex->neighbors.count; i++){
+            int index = get_neighbor_index(graph, curr_vertex, curr_vertex->neighbors.elements[i]);
+            if(index == -1){
+                continue;
+            }
+            if(visited[index] == 0){
+                visited[index] = 1;
+                if(graph->vertices.elements[index] == end_vertex){
+                    found = 1;
+                    break;
+                }
+                queue_enqueue(queue, graph->vertices.elements[index]);
+            }
+        }
+    }
+    free(visited);
+    return found;
+}
 
 void print_graph(graph_t* graph){
     if(graph == NULL){
