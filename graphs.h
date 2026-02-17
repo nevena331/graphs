@@ -30,6 +30,7 @@ int get_vertex_index(graph_t* graph, vertex_t* vertex_to_find);
 int get_neighbor_index(graph_t* graph, vertex_t* curr_vertex, void* edge);
 
 int is_cyclical(graph_t* graph);
+graph_t* topological_sort(graph_t* graph);
 
 void print_graph(graph_t* graph);
 graph_t* free_graph(graph_t* graph);

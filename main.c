@@ -58,7 +58,7 @@ void print_adj_matrix(int** matrix, int vertex_count){
 }
 
 void graph_tests(){
-    FILE* file = fopen("../graphs_adj_matrix/uncyclical_directed.txt", "r");
+    FILE* file = fopen("../graphs_adj_matrix/DAG2.txt", "r");
     if(file == NULL) {
         printf("Not able to open the file.\n");
         return;
@@ -73,11 +73,18 @@ void graph_tests(){
     fclose(file);
     
     graph_t* graph = create_graph(adj_matrix, vertex_count, is_directed_flag);
+    printf("\nOriginal graph:\n");
     print_graph(graph);
 
     printf("is eulerian: %d\n", is_eulerian(graph));
     printf("is cyclical: %d\n", is_cyclical(graph));
 
+    graph_t* topologically_sorted_graph = topological_sort(graph);
+    printf("\nTopologically sorted graph:\n");
+    print_graph(topologically_sorted_graph);
+
+    graph = free_graph(graph);
+    topologically_sorted_graph = free_graph(topologically_sorted_graph);
     return;
 }
 

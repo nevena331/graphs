@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "graphs.h"
 #include "edges.h"
+#include "queue.h"
 
 vertex_t* create_vertex(int value){
     vertex_t* new_vertex = malloc(sizeof(vertex_t));
@@ -138,6 +139,66 @@ int is_cyclical(graph_t* graph){
     free(visited);
     free(curr_dfs_visited);
     return 0;
+}
+
+static int get_in_degree(graph_t* graph, vertex_t* vertex){
+    int in_degree = 0;
+    for(int i = 0; i < vertex->neighbors.count; i++){
+        edge_t* edge = vertex->neighbors.elements[i];
+        if(edge->vertex1 == vertex && (edge->direction == 0 || edge->direction == 1)){
+            in_degree++;
+        }else if(edge->vertex2 == vertex && (edge->direction == 0 || edge->direction == 2)){
+            in_degree++;
+        }
+    }
+    return in_degree;
+}
+
+graph_t* topological_sort(graph_t* graph){
+    if(graph == NULL || is_cyclical(graph)){
+        return NULL;
+    }
+
+    graph_t* new_graph = create_empty_graph(1);
+    queue_t* queue = queue_create();
+
+    int* in_degrees = calloc(graph->vertices.count, sizeof(int));
+    for(int i = 0; i < graph->vertices.count; i++){
+        vertex_t* vertex = graph->vertices.elements[i];
+        in_degrees[i] = get_in_degree(graph, vertex);
+        if(in_degrees[i] == 0){
+            queue_enqueue(queue, vertex);
+        }
+    }
+    while(!queue_is_empty(queue)){
+        vertex_t* vertex = queue_dequeue(queue);
+        vertex_t* new_vertex = create_vertex(vertex->value);
+        add_element_to_set(&new_graph->vertices, new_vertex);
+        for(int j = 0; j < vertex->neighbors.count; j++){
+            int neigbor_index = get_neighbor_index(graph, vertex, vertex->neighbors.elements[j]);
+            if(neigbor_index == -1){
+                continue;
+            }
+            in_degrees[neigbor_index]--;
+            if(in_degrees[neigbor_index] == 0){
+                queue_enqueue(queue, graph->vertices.elements[neigbor_index]);
+            }
+        }
+    }
+    for(int i = 0; i < graph->vertices.count; i++){
+        vertex_t* vertex = graph->vertices.elements[i];
+        for(int j = 0; j < vertex->neighbors.count; j++){
+            int neighbor_index = get_neighbor_index(graph, vertex, vertex->neighbors.elements[j]);
+            if(neighbor_index == -1){
+                continue;
+            }
+            vertex_t* new_graph_vertex = get_vertex(new_graph, vertex->value);
+            vertex_t* new_graph_neighbor = get_vertex(new_graph, ((vertex_t*)(graph->vertices.elements[neighbor_index]))->value);
+            add_edge(new_graph_vertex, new_graph_neighbor, 2, 1);
+        }
+    }
+    free(in_degrees);
+    return new_graph;
 }
 
 
