@@ -57,15 +57,6 @@ graph_t* create_random_filled_graph(){
     }
 }
 
-static int get_neighbor_index(graph_t* graph, vertex_t* curr_vertex, edge_t* edge){
-    if(edge->vertex1 == curr_vertex){
-        return get_vertex_index(graph, edge->vertex2);
-    }else if(edge->vertex2 == curr_vertex){
-        return get_vertex_index(graph, edge->vertex1);
-    }else{
-        return -1;
-    }
-}
 
 static edge_t* find_min_weight_edge(graph_t* graph, int* visited){
     edge_t* min_weight_edge = NULL;

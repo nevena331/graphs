@@ -2,7 +2,6 @@
 #include "graphs.h"
 #include "edges.h"
 
-
 vertex_t* create_vertex(int value){
     vertex_t* new_vertex = malloc(sizeof(vertex_t));
     CHECK_ALLOC(new_vertex);
@@ -83,7 +82,69 @@ int get_vertex_index(graph_t* graph, vertex_t* vertex_to_find){
     return index;
 }
 
+int get_neighbor_index(graph_t* graph, vertex_t* curr_vertex, void* edge){
+    edge_t* edge_ptr = (edge_t*) edge;
+    if(edge_ptr->vertex1 == curr_vertex && (edge_ptr->direction == 0 || edge_ptr->direction == 2)){
+        return get_vertex_index(graph, edge_ptr->vertex2);
+    }else if(edge_ptr->vertex2 == curr_vertex && (edge_ptr->direction == 0 || edge_ptr->direction == 1)){
+        return get_vertex_index(graph, edge_ptr->vertex1);
+    }else{
+        return -1;
+    }
+}
+
+int is_cyclical_internal(graph_t* graph, int vertex_index, int* visited, int* curr_dfs_visited){
+    visited[vertex_index] = 1;
+    curr_dfs_visited[vertex_index] = 1;
+    vertex_t* vertex = graph->vertices.elements[vertex_index];
+    for(int i = 0; i < vertex->neighbors.count; i++){
+        int neighbor_index = get_neighbor_index(graph, vertex, vertex->neighbors.elements[i]);
+        if(neighbor_index == -1){
+            continue;
+        }
+        if(!visited[neighbor_index]){
+            if(is_cyclical_internal(graph, neighbor_index, visited, curr_dfs_visited)){
+                return 1;
+            }
+        }else if(curr_dfs_visited[neighbor_index]){
+            return 1;
+        }
+    }
+    curr_dfs_visited[vertex_index] = 0;
+    return 0;
+}
+
+
+int is_cyclical(graph_t* graph){
+    if(graph == NULL){
+        return -1;
+    }
+    if(graph->vertices.count == 0){
+        return 0;
+    }
+    int* visited = calloc(graph->vertices.count, sizeof(int));
+    CHECK_ALLOC(visited);
+    int* curr_dfs_visited = calloc(graph->vertices.count, sizeof(int));
+    CHECK_ALLOC(curr_dfs_visited);
+    for(int i = 0; i < graph->vertices.count; i++){
+        if(!visited[i]){
+            if(is_cyclical_internal(graph, i, visited, curr_dfs_visited)){
+                free(visited);
+                free(curr_dfs_visited);
+                return 1;
+            }
+        }
+    }
+    free(visited);
+    free(curr_dfs_visited);
+    return 0;
+}
+
+
 void print_graph(graph_t* graph){
+    if(graph == NULL){
+        return;
+    }
     for(int i = 0; i < graph->vertices.count; i++){
         vertex_t* vertex = graph->vertices.elements[i];
         printf("Vertex %d:\n", vertex->value);
@@ -106,6 +167,9 @@ static void free_vertex(vertex_t* vertex){
 }
 
 graph_t* free_graph(graph_t* graph){
+    if(graph == NULL){
+        return NULL;
+    }
     for(int i = 0; i < graph->vertices.count; i++){
         free_vertex(graph->vertices.elements[i]);
         graph->vertices.elements[i] = NULL;
