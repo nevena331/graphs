@@ -57,8 +57,8 @@ void print_adj_matrix(int** matrix, int vertex_count){
     }
 }
 
-graph_t* read_file(){
-    FILE* file = fopen("../graphs_adj_matrix/DAG2.txt", "r");
+graph_t* read_file(char* filename){
+    FILE* file = fopen(filename, "r");
     if(file == NULL) {
         printf("Not able to open the file.\n");
         return NULL;
@@ -78,8 +78,8 @@ graph_t* read_file(){
 }
 
 
-void graph_tests(){
-    graph_t* graph = read_file();
+void graph_tests(char* filename){
+    graph_t* graph = read_file(filename);
     printf("\nOriginal graph:\n");
     print_graph(graph);
 
@@ -110,7 +110,7 @@ void minimal_spanning_tree_test(){
 
 
 int main(){
-    // graph_tests();
-    minimal_spanning_tree_test();
+    graph_tests("../graphs_adj_matrix/wd_graph.txt");
+    // minimal_spanning_tree_test();
     return 0;
 }
