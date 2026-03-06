@@ -190,7 +190,7 @@ graph_t* topological_sort(graph_t* graph){
             }
             vertex_t* new_graph_vertex = get_vertex(new_graph, vertex->value);
             vertex_t* new_graph_neighbor = get_vertex(new_graph, ((vertex_t*)(graph->vertices.elements[neighbor_index]))->value);
-            add_edge(new_graph_vertex, new_graph_neighbor, 2, 1);
+            add_edge(new_graph_vertex, new_graph_neighbor, 2, ((edge_t*)(vertex->neighbors.elements[j]))->weight);
         }
     }
     free(in_degrees);
