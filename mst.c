@@ -82,14 +82,14 @@ static edge_t* find_min_weight_edge(graph_t* graph, int* visited){
 }
 
 graph_t* build_mst(graph_t* graph){
-    graph_t* mst = create_empty_graph(0);
+    graph_t* mst = create_empty_graph(0, 1);
     if(graph == NULL || graph->vertices.count == 0){
         return mst;
     }
     for(int i = 0; i < graph->vertices.count; i++){
         vertex_t* new_vertex = create_vertex(((vertex_t*)graph->vertices.elements[i])->value);
         add_element_to_set(&mst->vertices, new_vertex);
-    }
+    }   
     int* visited = calloc(mst->vertices.count, sizeof(int));
     CHECK_ALLOC(visited);
     visited[0] = 1;

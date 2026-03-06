@@ -23,22 +23,18 @@ vertex_t* get_vertex(graph_t* graph, int value){
     return vertex;
 }
 
-graph_t* create_empty_graph(int is_directed){
+graph_t* create_empty_graph(int is_directed, int is_weighted){
     graph_t* graph = malloc(sizeof(graph_t));
     CHECK_ALLOC(graph);
     graph->vertices.elements = NULL;
     graph->vertices.count = 0;
     graph->is_directed = is_directed;
+    graph->is_weighted = is_weighted;
     return graph;
 }
 
-graph_t* create_graph(int**matrix, int vertex_count, int is_directed){
-    graph_t* graph = malloc(sizeof(graph_t));
-    CHECK_ALLOC(graph);
-    graph->vertices.elements = NULL;
-    graph->vertices.count = 0;
-    graph->is_directed = is_directed;
-    
+graph_t* create_graph(int**matrix, int vertex_count, int is_directed, int is_weighted){
+    graph_t* graph = create_empty_graph(is_directed, is_weighted);
     for(int i = 0; i < vertex_count; i++){
         vertex_t* new_vertex = create_vertex(i);
         add_element_to_set(&graph->vertices, new_vertex);
@@ -47,22 +43,22 @@ graph_t* create_graph(int**matrix, int vertex_count, int is_directed){
             if(matrix[i][j]){
                 if(matrix[j][i]){
                     if(graph->is_directed){
-                        add_edge(new_vertex, neighbor, 2, 1);
-                        add_edge(new_vertex, neighbor, 1, 1);
+                        add_edge(new_vertex, neighbor, 2, matrix[i][j]);
+                        add_edge(new_vertex, neighbor, 1, matrix[j][i]);
                     }else{        
-                        add_edge(new_vertex, neighbor, 0, 1);
+                        add_edge(new_vertex, neighbor, 0, matrix[i][j]);
                     }
                 }else{
-                    add_edge(new_vertex, neighbor, 2, 1);
+                    add_edge(new_vertex, neighbor, 2, matrix[i][j]);
                 }
             }else{
                 if(matrix[j][i]){
-                    add_edge(new_vertex, neighbor, 1, 1);
+                    add_edge(new_vertex, neighbor, 1, matrix[j][i]);
                 }
             }
         }
         if(matrix[i][i]){
-            add_edge(new_vertex, new_vertex, 0, 1);
+            add_edge(new_vertex, new_vertex, 0, matrix[i][i]);
         }
     }
     return graph;
@@ -159,7 +155,7 @@ graph_t* topological_sort(graph_t* graph){
         return NULL;
     }
 
-    graph_t* new_graph = create_empty_graph(1);
+    graph_t* new_graph = create_empty_graph(graph->is_directed, graph->is_weighted);
     queue_t* queue = queue_create();
 
     int* in_degrees = calloc(graph->vertices.count, sizeof(int));

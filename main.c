@@ -17,16 +17,16 @@ int get_vertex_count(FILE* file){
     return v;
 }   
 
-int is_directed(FILE* file, int vertex_count){
-    char is_directed_str[64];
-    if(!fgets(is_directed_str, sizeof(is_directed_str), file)){
-        fprintf(stderr, "Failed to read is_directed flag\n");
+int is_check(FILE* file){
+    char is_check_str[64];
+    if(!fgets(is_check_str, sizeof(is_check_str), file)){
+        fprintf(stderr, "Failed to read is_check flag\n");
         exit(1);
     }
-    int is_directed = atoi(is_directed_str);
-    printf("Is directed string: %s", is_directed_str);
-    printf("Converted is_directed: %d\n", is_directed);
-    return is_directed;
+    int is_check = atoi(is_check_str);
+    printf("Is check string: %s", is_check_str);
+    printf("Converted is_check: %d\n", is_check);
+    return is_check;
 }
 
 int** read_adjacency_matrix(FILE* file, int vertex_count){
@@ -57,22 +57,29 @@ void print_adj_matrix(int** matrix, int vertex_count){
     }
 }
 
-void graph_tests(){
+graph_t* read_file(){
     FILE* file = fopen("../graphs_adj_matrix/DAG2.txt", "r");
     if(file == NULL) {
         printf("Not able to open the file.\n");
-        return;
+        return NULL;
     }
 
     int vertex_count = get_vertex_count(file);
-    int is_directed_flag = is_directed(file, vertex_count);
+    int is_directed_flag = is_check(file);
+    int is_weighted_flag = is_check(file);
     int** adj_matrix = read_adjacency_matrix(file, vertex_count);
     printf("vertex count: %d\n", vertex_count);
     print_adj_matrix(adj_matrix, vertex_count);
     
     fclose(file);
     
-    graph_t* graph = create_graph(adj_matrix, vertex_count, is_directed_flag);
+    graph_t* graph = create_graph(adj_matrix, vertex_count, is_directed_flag, is_weighted_flag);
+    return graph;
+}
+
+
+void graph_tests(){
+    graph_t* graph = read_file();
     printf("\nOriginal graph:\n");
     print_graph(graph);
 
@@ -103,7 +110,7 @@ void minimal_spanning_tree_test(){
 
 
 int main(){
-    graph_tests();
-    // minimal_spanning_tree_test();
+    // graph_tests();
+    minimal_spanning_tree_test();
     return 0;
 }
