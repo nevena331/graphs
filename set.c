@@ -1,5 +1,4 @@
 #include "set.h"
-#include "edges.h"
 
 set_t* create_empty_set(){
     set_t* set = malloc(sizeof(set_t));

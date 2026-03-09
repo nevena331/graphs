@@ -1,6 +1,15 @@
 #pragma once
 #include<stdlib.h>
 
+#ifndef CHECK_ALLOC
+#define CHECK_ALLOC(PTR)                  \
+if (PTR == NULL)                          \
+{                                         \
+    printf("Memory allocation failed\n"); \
+    exit(1);                              \
+}
+#endif
+
 typedef struct {
     void** elements;
     int count;
