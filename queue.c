@@ -3,6 +3,7 @@
 
 queue_t *queue_create(){
     queue_t *q = (queue_t *)malloc(sizeof(queue_t));
+    CHECK_ALLOC(q);
     q->front = NULL;
     q->back = NULL;
     return q;
@@ -14,6 +15,7 @@ int queue_is_empty(queue_t *q){
 
 void queue_enqueue(queue_t *q, void *value){
     queue_node_t *new_node = (queue_node_t *)malloc(sizeof(queue_node_t));
+    CHECK_ALLOC(new_node);
     new_node->value = value;
     new_node->next = NULL;
 
