@@ -23,8 +23,10 @@ void add_ll_node(l_list* list, void* value){
         list->head = new_node;
         list->tail = new_node;
     }else{
+        list->tail->next = new_node;
         list->tail = new_node;  
     }
+
 }
 
 void* get_ll_node_by_value(l_list* list, void* value){

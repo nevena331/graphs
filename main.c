@@ -4,6 +4,7 @@
 #include "euler.h"
 #include "graphs.h"
 #include "mst.h"
+#include "pathfinding.h"
 
 int get_vertex_count(FILE* file){
     char vertex_count_str[64];
@@ -108,9 +109,26 @@ void minimal_spanning_tree_test(){
     mst = free_graph(mst);  
 }
 
+void pathfinding_tests(char* filename){
+    graph_t* graph = read_file(filename);
+    printf("\nOriginal graph:\n");
+    print_graph(graph);
+
+    vertex_t* start = get_vertex(graph, 5);
+    printf("Start vertex: %d\n", start->value);
+    vertex_t* end = get_vertex(graph, 2);
+    printf("End vertex: %d\n", end->value);
+    route_t* dfs_route_result = dfs_route(graph, start, end);
+
+    print_route(dfs_route_result);
+
+    graph = free_graph(graph);
+    dfs_route_result = free_route(dfs_route_result);
+}
 
 int main(){
-    graph_tests("../graphs_adj_matrix/wd_graph.txt");
+    // graph_tests("../graphs_adj_matrix/wd_graph.txt");
     // minimal_spanning_tree_test();
+    pathfinding_tests("../graphs_adj_matrix/graph.txt");
     return 0;
 }

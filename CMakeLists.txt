@@ -15,6 +15,8 @@ add_executable(graphs
     euler.c
     queue.c
     mst.c
+    pathfinding.c
+    linked_list.c
 )
 
 # Set the directories that should be included in the build command for this target
