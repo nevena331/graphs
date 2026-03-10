@@ -50,6 +50,62 @@ void* get_node_by_index(l_list* list, int index){
     return current_node;
 }
 
+
+void* delete_node_by_value(l_list* list, void* value){
+    if(list == NULL){
+        return NULL;
+    }
+    ll_node* current_node = list->head;
+    ll_node* prev_node = NULL;
+    while(current_node != NULL){
+        if(current_node->value == value){
+            if(prev_node == NULL){
+                list->head = current_node->next;
+            }else{
+                prev_node->next = current_node->next;
+            }
+            if(current_node == list->tail){
+                list->tail = prev_node;
+            }
+            void* node_value = current_node->value;
+            free(current_node);
+            return node_value;
+        }
+        prev_node = current_node;
+        current_node = current_node->next;
+    }
+    return NULL;
+}
+
+void*delete_node_by_index(l_list* list, int index){
+    if(list == NULL){
+        return NULL;
+    }
+    ll_node* current_node = list->head;
+    ll_node* prev_node = NULL;
+    for(int i = 0; i <= index; i++){
+        if(current_node == NULL){
+            return NULL;
+        }
+        if(i == index){
+            if(prev_node == NULL){
+                list->head = current_node->next;
+            }else{
+                prev_node->next = current_node->next;
+            }
+            if(current_node == list->tail){
+                list->tail = prev_node;
+            }
+            void* node_value = current_node->value;
+            free(current_node);
+            return node_value;
+        }
+        prev_node = current_node;
+        current_node = current_node->next;
+    }
+    return NULL;
+}
+
 l_list* delete_list(l_list* list){
     if(list == NULL){
         return NULL;
