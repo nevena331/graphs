@@ -18,8 +18,13 @@ void add_ll_node(l_list* list, void* value){
     CHECK_ALLOC(new_node);
     new_node->value = value;
     new_node->next = NULL;
-    list->tail->next = new_node;
-    list->tail = new_node;
+
+    if(list->tail == NULL){
+        list->head = new_node;
+        list->tail = new_node;
+    }else{
+        list->tail = new_node;  
+    }
 }
 
 void* get_ll_node_by_value(l_list* list, void* value){
