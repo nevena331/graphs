@@ -79,15 +79,18 @@ int get_vertex_index(graph_t* graph, vertex_t* vertex_to_find){
     return index;
 }
 
-int get_neighbor_index(graph_t* graph, vertex_t* curr_vertex, void* edge){
-    edge_t* edge_ptr = (edge_t*) edge;
-    if(edge_ptr->vertex1 == curr_vertex && (edge_ptr->direction == 0 || edge_ptr->direction == 2)){
-        return get_vertex_index(graph, edge_ptr->vertex2);
-    }else if(edge_ptr->vertex2 == curr_vertex && (edge_ptr->direction == 0 || edge_ptr->direction == 1)){
-        return get_vertex_index(graph, edge_ptr->vertex1);
-    }else{
-        return -1;
+vertex_t* get_neighbor(vertex_t* curr_vertex, edge_t* edge){
+    if(edge->vertex1 == curr_vertex && (edge->direction == 0 || edge->direction == 2)){
+        return edge->vertex2;
+    }else if(edge->vertex2 == curr_vertex && (edge->direction == 0 || edge->direction == 1)){
+        return edge->vertex1;
     }
+    return NULL;
+}
+
+int get_neighbor_index(graph_t* graph, vertex_t* curr_vertex, edge_t* edge){
+    vertex_t* neighbor = get_neighbor(curr_vertex, edge);
+    return get_vertex_index(graph, neighbor);
 }
 
 int is_cyclical_internal(graph_t* graph, int vertex_index, int* visited, int* curr_dfs_visited){
