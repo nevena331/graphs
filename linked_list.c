@@ -10,7 +10,7 @@ l_list* create_list(){
     return linked_list;
 }
 
-void add_node(l_list* list, void* value){
+void add_ll_node(l_list* list, void* value){
     if(list == NULL){
         return;
     }
@@ -22,7 +22,7 @@ void add_node(l_list* list, void* value){
     list->tail = new_node;
 }
 
-void* get_node_by_value(l_list* list, void* value){
+void* get_ll_node_by_value(l_list* list, void* value){
     if(list == NULL){
         return NULL;
     }
@@ -36,7 +36,7 @@ void* get_node_by_value(l_list* list, void* value){
     return NULL;
 }
 
-void* get_node_by_index(l_list* list, int index){
+void* get_ll_node_by_index(l_list* list, int index){
     if(list == NULL){
         return NULL;
     }
@@ -51,7 +51,7 @@ void* get_node_by_index(l_list* list, int index){
 }
 
 
-void* delete_node_by_value(l_list* list, void* value){
+void* delete_ll_node_by_value(l_list* list, void* value){
     if(list == NULL){
         return NULL;
     }
@@ -77,7 +77,7 @@ void* delete_node_by_value(l_list* list, void* value){
     return NULL;
 }
 
-void*delete_node_by_index(l_list* list, int index){
+void*delete_ll_node_by_index(l_list* list, int index){
     if(list == NULL){
         return NULL;
     }

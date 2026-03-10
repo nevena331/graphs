@@ -21,12 +21,12 @@ typedef struct l_list{
 }l_list;
 
 l_list* create_list();
-void add_node(l_list* list, void* value);
+void add_ll_node(l_list* list, void* value);
 
-void* get_node_by_value(l_list* list, void* value);
-void* get_node_by_index(l_list* list, int index);
+void* get_ll_node_by_value(l_list* list, void* value);
+void* get_ll_node_by_index(l_list* list, int index);
 
-void* delete_node_by_value(l_list* list, void* value);
-void*delete_node_by_index(l_list* list, int index);
+void* delete_ll_node_by_value(l_list* list, void* value);
+void*delete_ll_node_by_index(l_list* list, int index);
 
 l_list* delete_list(l_list* list);
