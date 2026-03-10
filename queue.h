@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdio.h>
+
 #ifndef CHECK_ALLOC
 #define CHECK_ALLOC(PTR)                  \
 if (PTR == NULL)                          \

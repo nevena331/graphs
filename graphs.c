@@ -79,16 +79,17 @@ int get_vertex_index(graph_t* graph, vertex_t* vertex_to_find){
     return index;
 }
 
-vertex_t* get_neighbor(vertex_t* curr_vertex, edge_t* edge){
-    if(edge->vertex1 == curr_vertex && (edge->direction == 0 || edge->direction == 2)){
-        return edge->vertex2;
-    }else if(edge->vertex2 == curr_vertex && (edge->direction == 0 || edge->direction == 1)){
-        return edge->vertex1;
+vertex_t* get_neighbor(vertex_t* curr_vertex, void* edge){
+    edge_t* edge_ptr = (edge_t*)edge;
+    if(edge_ptr->vertex1 == curr_vertex && (edge_ptr->direction == 0 || edge_ptr->direction == 2)){
+        return edge_ptr->vertex2;
+    }else if(edge_ptr->vertex2 == curr_vertex && (edge_ptr->direction == 0 || edge_ptr->direction == 1)){
+        return edge_ptr->vertex1;
     }
     return NULL;
 }
 
-int get_neighbor_index(graph_t* graph, vertex_t* curr_vertex, edge_t* edge){
+int get_neighbor_index(graph_t* graph, vertex_t* curr_vertex, void* edge){
     vertex_t* neighbor = get_neighbor(curr_vertex, edge);
     return get_vertex_index(graph, neighbor);
 }
@@ -247,7 +248,7 @@ void print_graph(graph_t* graph){
 static void free_vertex(vertex_t* vertex){
     if(vertex->neighbors.elements != NULL){
         for(int i = 0; i < vertex->neighbors.count; i++){
-            remove_edge(NULL, NULL, vertex->neighbors.elements[i]);
+            remove_edge(((edge_t*)(vertex->neighbors.elements[i]))->vertex1, ((edge_t*)(vertex->neighbors.elements[i]))->vertex2);
             i--;
         }
     }

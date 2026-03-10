@@ -1,6 +1,5 @@
 #pragma once 
 #include "set.h"
-#include "edges.h"
 #include <stdio.h>
 
 #ifndef CHECK_ALLOC
@@ -31,7 +30,7 @@ graph_t* create_empty_graph(int is_directed, int is_weighted);
 graph_t* create_graph(int** matrix, int vertex_count, int is_directed, int is_weighted);
 
 int get_vertex_index(graph_t* graph, vertex_t* vertex_to_find);
-vertex_t* get_neighbor(vertex_t* curr_vertex, edge_t* edge);
+vertex_t* get_neighbor(vertex_t* curr_vertex, void* edge);
 int get_neighbor_index(graph_t* graph, vertex_t* curr_vertex, void* edge);
 
 int is_cyclical(graph_t* graph);

@@ -1,7 +1,7 @@
 #include "euler.h"
 #include <assert.h>
 
-static vertex_t* get_neighbor(vertex_t* vertex, int edge_index){
+static vertex_t* get_neighbor_by_index(vertex_t* vertex, int edge_index){
     edge_t* edge = (edge_t*)vertex->neighbors.elements[edge_index];
     if(edge->vertex1 == vertex){
         return edge->vertex2;
@@ -19,7 +19,7 @@ void connected_component_only_internal(graph_t* graph, vertex_t* first_vertex, i
     }
     visited[index] = 1;
     for(int i = 0; i < first_vertex->neighbors.count; i++){
-        vertex_t* neighbor = get_neighbor(first_vertex, i);
+        vertex_t* neighbor = get_neighbor_by_index(first_vertex, i);
         if(neighbor != NULL){
             connected_component_only_internal(graph, neighbor, visited);
         }
@@ -31,7 +31,7 @@ int tree_like_connected_component_only(graph_t* graph, vertex_t* root){
     CHECK_ALLOC(visited);
     visited[get_vertex_index(graph, root)] = 1;
     for(int i = 0; i < root->neighbors.count; i++){
-        vertex_t* neighbor = get_neighbor(root, i);
+        vertex_t* neighbor = get_neighbor_by_index(root, i);
         connected_component_only_internal(graph, neighbor, visited);
     }
     for(int i = 0; i < graph->vertices.count; i++){
@@ -188,10 +188,10 @@ static int is_eulerian_directed(graph_t* graph){
 
     add_edge(end_vertex, beginning_vertex, 2, 0);
     if(is_eulerian_cycle_directed(graph)){
-        remove_edge(beginning_vertex, end_vertex, NULL);
+        remove_edge(beginning_vertex, end_vertex);
         return 1;
     }
-    remove_edge(beginning_vertex, end_vertex, NULL);
+    remove_edge(beginning_vertex, end_vertex);
     return 0;
 }
 

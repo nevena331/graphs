@@ -17,26 +17,25 @@ edge_t* add_edge(vertex_t* vertex1, vertex_t* vertex2, int direction, int weight
     return new_edge;
 }
 
-void remove_edge(vertex_t* vertex1, vertex_t* vertex2, edge_t* edge){
-    if(edge != NULL){
-        remove_element_from_set(&(edge->vertex1->neighbors), edge);
-        remove_element_from_set(&(edge->vertex2->neighbors), edge);
-        free(edge);
-        return;
-    }
-    
-    edge_t* edge_to_delete = NULL;
+edge_t* get_edge(vertex_t* vertex1, vertex_t* vertex2){
     for(int i = 0; i < vertex1->neighbors.count; i++){
-        edge_t* current_edge = vertex1->neighbors.elements[i];
-        if(current_edge->vertex1 == vertex2 || current_edge->vertex2 == vertex2){
-            edge_to_delete = current_edge;
-            remove_element_from_set(&(vertex1->neighbors), edge_to_delete);
-            remove_element_from_set(&(vertex2->neighbors), edge_to_delete);
-            free(edge_to_delete);
-            return;
+        edge_t* curr_edge = vertex1->neighbors.elements[i];
+        if(curr_edge->vertex1 == vertex2 || curr_edge->vertex2 == vertex2){
+            return curr_edge;
         }
     }
+    return NULL;
 }
+
+void remove_edge(vertex_t* vertex1, vertex_t* vertex2){
+    edge_t* edge_to_remove = get_edge(vertex1, vertex2);
+    if(edge_to_remove != NULL){
+        remove_element_from_set(&(edge_to_remove->vertex1->neighbors), edge_to_remove);
+        remove_element_from_set(&(edge_to_remove->vertex2->neighbors), edge_to_remove);
+        free(edge_to_remove);
+    }
+}
+
 
 void print_edge(edge_t* edge){
     printf("v1: %d - v2: %d, direction: %d, weight: %d\n",
