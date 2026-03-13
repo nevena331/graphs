@@ -96,3 +96,34 @@ route_t* dfs_route(graph_t* graph, vertex_t* start, vertex_t* end){
     free(visited);
     return route;
 }
+
+static route_t* dfs_shortest_route_internal(graph_t* graph, route_t* route, int* visited, vertex_t* end){
+
+}
+
+static route_t* dfs_shortest_route(graph_t* graph, vertex_t* start, vertex_t* end){
+    if(!is_reachable(graph, start, end)){
+        return NULL;
+    }
+    route_t* shortest_route = malloc(sizeof(route_t));
+    CHECK_ALLOC(shortest_route);
+    shortest_route->weight = 0;
+    add_ll_node(&(shortest_route->route), start);
+    if(start == end){
+        return shortest_route;
+    }
+
+    int* visited = calloc(graph->vertices.count, sizeof(int));
+    CHECK_ALLOC(visited);
+    visited[get_vertex_index(graph, start)] = 1;
+
+}
+static route_t* dfs_lightest_route(graph_t* graph, vertex_t* start, vertex_t* end);
+
+route_t* dfs_easiest_route(graph_t* graph, vertex_t* start, vertex_t* end){
+    if(graph->is_weighted){
+        return dfs_lightest_route(graph, start, end);
+    } else {
+        return dfs_shortest_route(graph, start, end);
+    }
+}
