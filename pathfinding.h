@@ -13,8 +13,3 @@ void print_route(route_t* route);
 route_t* free_route(route_t* route);
 
 route_t* dfs_route(graph_t* graph, vertex_t* start, vertex_t* end);
-route_t* dfs_easiest_route(graph_t* graph, vertex_t* start, vertex_t* end);
-
-route_t* bfs_route(graph_t* graph, vertex_t* start, vertex_t* end);
-route_t* bfs_shortest_route(graph_t* graph, vertex_t* start, vertex_t* end);
-route_t* bfs_lightest_route(graph_t* graph, vertex_t* start, vertex_t* end);
