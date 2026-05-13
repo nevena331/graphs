@@ -21,7 +21,8 @@ typedef struct l_list{
 }l_list;
 
 l_list* create_list();
-void add_ll_node(l_list* list, void* value);
+void push_back_ll_node(l_list* list, void* value);
+void push_front_ll_node(l_list* list, void* value);
 
 void* get_ll_node_by_value(l_list* list, void* value);
 void* get_ll_node_by_index(l_list* list, int index);

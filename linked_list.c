@@ -10,7 +10,7 @@ l_list* create_list(){
     return linked_list;
 }
 
-void add_ll_node(l_list* list, void* value){
+void push_back_ll_node(l_list* list, void* value){
     if(list == NULL){
         return;
     }
@@ -27,6 +27,21 @@ void add_ll_node(l_list* list, void* value){
         list->tail = new_node;  
     }
 
+}
+
+void push_front_ll_node(l_list* list, void* value){
+    if(list == NULL){
+        return;
+    }
+    ll_node* new_node = malloc(sizeof(ll_node));
+    CHECK_ALLOC(new_node);
+    new_node->value = value;
+    new_node->next = list->head;
+
+    if(list->head == NULL){
+        list->tail = new_node;
+    }
+    list->head = new_node;
 }
 
 void* get_ll_node_by_value(l_list* list, void* value){

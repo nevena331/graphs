@@ -5,6 +5,7 @@
 #include "graphs.h"
 #include "mst.h"
 #include "pathfinding.h"
+#include "dijkstra.h"
 
 int get_vertex_count(FILE* file){
     char vertex_count_str[64];
@@ -126,9 +127,46 @@ void pathfinding_tests(char* filename){
     dfs_route_result = free_route(dfs_route_result);
 }
 
-int main(){
+void dijkstra_test(char* filename){
+    graph_t* graph = read_file(filename);
+    if (graph == NULL){
+        fprintf(stderr, "Failed to load graph from file: %s\n", filename);
+        return;
+    }
+
+    printf("\nOriginal graph:\n");
+    print_graph(graph);
+
+    vertex_t* start = get_vertex(graph, 2);
+    if (start == NULL && graph->vertices.count > 0){
+        start = (vertex_t*)graph->vertices.elements[0];
+    }
+    vertex_t* end = get_vertex(graph, 3);
+    if (end == NULL && graph->vertices.count > 1){
+        end = (vertex_t*)graph->vertices.elements[graph->vertices.count - 1];
+    }
+
+    if (start == NULL || end == NULL)
+    {
+        fprintf(stderr, "Graph does not have enough vertices for Dijkstra test\n");
+        graph = free_graph(graph);
+        return;
+    }
+
+    printf("Start vertex: %d\n", start->value);
+    printf("End vertex: %d\n", end->value);
+    dijkstra_route_t* dijkstra_route_result = dijkstra(graph, start, end);
+
+    print_dijkstra_route(dijkstra_route_result);
+
+    graph = free_graph(graph);
+    dijkstra_route_result = free_dijkstra_route(dijkstra_route_result);
+}
+
+int main(int argc, char* argv[]) {
     // graph_tests("../graphs_adj_matrix/wd_graph.txt");
     // minimal_spanning_tree_test();
-    pathfinding_tests("../graphs_adj_matrix/graph.txt");
+    // pathfinding_tests("../graphs_adj_matrix/graph.txt");
+    dijkstra_test("../graphs_adj_matrix/w_graph.txt");
     return 0;
 }

@@ -17,6 +17,7 @@ add_executable(graphs
     mst.c
     pathfinding.c
     linked_list.c
+    dijkstra.c
 )
 
 # Set the directories that should be included in the build command for this target

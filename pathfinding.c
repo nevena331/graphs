@@ -34,7 +34,7 @@ route_t* free_route(route_t* route){
 static void add_vertex_to_route(route_t* route, vertex_t* vertex_to_add){
     int weight = get_edge((vertex_t*)(route->route.tail->value), vertex_to_add)->weight;
     route->weight += weight;
-    add_ll_node(&(route->route), vertex_to_add);
+    push_back_ll_node(&(route->route), vertex_to_add);
 }
 
 static void remove_vertex_from_route(route_t* route){
@@ -83,7 +83,7 @@ route_t* dfs_route(graph_t* graph, vertex_t* start, vertex_t* end){
     route_t* route = malloc(sizeof(route_t));
     CHECK_ALLOC(route);
     route->weight = 0;
-    add_ll_node(&(route->route), start);
+    push_back_ll_node(&(route->route), start);
     if(start == end){
         return route;
     }
